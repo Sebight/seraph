@@ -49,7 +49,7 @@ public:
     FunctionCaller& Function(const std::string& functionSignature,
                              InstanceHandle instance = {},
                              FunctionPolicy policy = FunctionPolicy::Required);
-    FunctionCaller& Factory(const std::string& factoryDecl, asITypeInfo* type);
+    FunctionCaller& Factory(const std::string& factoryDecl, const std::string& typeName);
 
     template <typename T>
     FunctionCaller& Push(T value)

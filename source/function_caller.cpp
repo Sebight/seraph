@@ -71,9 +71,12 @@ srph::FunctionCaller& srph::FunctionCaller::Function(const std::string& function
     return *this;
 }
 
-srph::FunctionCaller& srph::FunctionCaller::Factory(const std::string& factoryDecl, asITypeInfo* type)
+srph::FunctionCaller& srph::FunctionCaller::Factory(const std::string& factoryDecl, const std::string& typeName)
 {
     if (!m_engine->m_built) return *this;
+
+    asIScriptModule* module = m_engine->GetModule(m_moduleName);
+    asITypeInfo* type = module->GetTypeInfoByDecl(typeName.c_str());
 
     asIScriptFunction* factory = type->GetFactoryByDecl(factoryDecl.c_str());
     if (factory == nullptr)

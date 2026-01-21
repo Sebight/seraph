@@ -69,8 +69,6 @@ public:
 
     std::string GetTypeName(InstanceHandle handle) const;
 
-    // TODO(Seb): I don't know how I feel about returning native pointers (and letting the user care about AddRef()...)
-    asITypeInfo* GetTypeInfo(const std::string& typeName, const std::string& moduleName) const;
     asIScriptObject* GetNativeObject(InstanceHandle handle) const { return m_instances.at(handle); }
 
     std::vector<ReflectedProperty> Reflect(InstanceHandle handle) const;

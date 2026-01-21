@@ -39,7 +39,6 @@ private:
     bool IsBreakpoint(const std::string& file, int line);
 
 private:
-    // TODO(Seb): Not too happy with this
     friend class DAP;
     friend class FunctionCaller;
 

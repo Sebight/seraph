@@ -209,14 +209,6 @@ std::string srph::Engine::GetTypeName(InstanceHandle handle) const
     return m_instances.at(handle)->GetObjectType()->GetName();
 }
 
-asITypeInfo* srph::Engine::GetTypeInfo(const std::string& typeName, const std::string& moduleName) const
-{
-    if (!m_built) return nullptr;
-
-    asIScriptModule* module = m_engine->GetModule(moduleName.c_str());
-    return module->GetTypeInfoByName(typeName.c_str());
-}
-
 std::vector<srph::ReflectedProperty> srph::Engine::Reflect(const InstanceHandle handle) const
 {
     if (!m_built) return {};
@@ -296,7 +288,6 @@ void srph::Engine::Print(const std::string& str) const { Log::ScriptInfo("{}", s
 
 asIScriptContext* srph::Engine::GetContext()
 {
-    // TODO(Seb): Implement context pooling
     asIScriptContext* ctx = m_engine->CreateContext();
     m_contexts.push_back(ctx);
 

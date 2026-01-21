@@ -315,7 +315,7 @@ public:
         return *this;
     }
 
-    // TODO(Seb): This was done because of special cases where I cannot rely on C++ constructors doing the correct thing, and I
+    // Note(Seb): This was done because of special cases where I cannot rely on C++ constructors doing the correct thing, and I
     // need extra logic when it comes to construction
     Class& Behaviour(asEBehaviours behaviour,
                      const char* decl,
@@ -332,7 +332,6 @@ public:
 
     void Register()
     {
-        // TODO(Seb): Figure out why I asGetTypeTraits doesn't work for reference types.
         asIScriptEngine* engine = m_engine->Temp_GetEngine();
 
         constexpr bool valueType = classType == ClassType::Value;

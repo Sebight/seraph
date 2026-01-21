@@ -242,7 +242,7 @@ asIScriptObject* obj = std::get<asIScriptObject*>(result.value);
 |--------|-------------|
 | `Module(const std::string& name)` | Set module to search |
 | `Function(const std::string& sig, InstanceHandle, FunctionPolicy)` | Prepare function/method call |
-| `Factory(const std::string& decl, asITypeInfo*)` | Prepare factory (constructor) call |
+| `Factory(const std::string& decl, const std::string& typeName)` | Prepare factory (constructor) call |
 | `Push<T>(T value)` | Push argument (primitives and registered types) |
 | `void Call()` | Execute without return value |
 | `FunctionResult Call(ReturnType)` | Execute and retrieve return value |
@@ -335,11 +335,18 @@ srph::InstanceHandle handle = engine.CreateInstance("Player", "Game");
 Custom constructor via factory:
 
 ```cpp
-asITypeInfo* type = engine.GetTypeInfo("Enemy", "Game");
 srph::FunctionCaller factory(&engine);
-factory.Module("Game").Factory("Enemy@ Enemy(const vec3&in)", type).Push(spawnPos);
+factory.Module("Game").Factory("Enemy@ Enemy(const vec3&in)", "Enemy").Push(spawnPos);
 srph::InstanceHandle handle = engine.CreateInstance(factory);
 ```
+
+### Native Object Access
+
+```cpp
+asIScriptObject* obj = engine.GetNativeObject(handle);
+```
+
+Returns the underlying AngelScript object pointer. Use with caution, because caller is responsible for `AddRef()`/`Release()` if retaining the pointer.
 
 ### InstanceHandle
 
