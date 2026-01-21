@@ -68,6 +68,12 @@ if (loader.Build()) {
 }
 ```
 
+### Create Instances
+
+```cpp
+srph::InstanceHandle handle = scripting.CreateInstance("Player", "Game");
+```
+
 ### Call Script Functions
 
 ```cpp

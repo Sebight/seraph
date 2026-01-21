@@ -114,17 +114,17 @@ Automatic registration via `magic_enum`.
 
 ```cpp
 // Uses enum type name
-srph::TypeRegistration::Enum<KeyCode>(&engine).Register();
+srph::TypeRegistration::Enum<KeyCode>(engine).Register();
 
 // Custom name
-srph::TypeRegistration::Enum<KeyCode>(&engine).Name("Key").Register();
+srph::TypeRegistration::Enum<KeyCode>(engine).Name("Key").Register();
 ```
 
 With namespaces:
 
 ```cpp
-engine.Namespace("Input");
-srph::TypeRegistration::Enum<Input::KeyCode>(&engine).Register();
+engine->Namespace("Input");
+srph::TypeRegistration::Enum<Input::KeyCode>(engine).Register();
 // Registers as Input::KeyCode
 ```
 
@@ -152,8 +152,8 @@ class Player : IAngelBehaviour {
 Register free functions callable from any script.
 
 ```cpp
-engine.Namespace("Math");
-srph::TypeRegistration::Global(&engine)
+engine->Namespace("Math");
+srph::TypeRegistration::Global(engine)
     .Function("float sin(float)", [](float x) { return std::sin(x); })
     .Function("float cos(float)", [](float x) { return std::cos(x); })
     .Function("float lerp(float, float, float)", 
@@ -329,16 +329,16 @@ std::vector<std::string> meta = engine.GetMetadata("Player", "health");
 Default constructor:
 
 ```cpp
-srph::InstanceHandle handle = engine.CreateInstance("Player");
+srph::InstanceHandle handle = engine.CreateInstance("Player", "Game");
 ```
 
 Custom constructor via factory:
 
 ```cpp
-asITypeInfo* type = engine.GetTypeInfo("Enemy");
+asITypeInfo* type = engine.GetTypeInfo("Enemy", "Game");
 srph::FunctionCaller factory(&engine);
 factory.Module("Game").Factory("Enemy@ Enemy(const vec3&in)", type).Push(spawnPos);
-srph::InstanceHandle handle = engine.CreateInstance("Enemy", factory);
+srph::InstanceHandle handle = engine.CreateInstance(factory);
 ```
 
 ### InstanceHandle
@@ -360,10 +360,10 @@ std::string name = engine.GetTypeName(handle);
 std::vector<srph::InstanceHandle> instances = engine.GetInstances();
 
 // Query classes implementing interface
-std::vector<std::string> behaviours = engine.QueryImplementations("IAngelBehaviour");
+std::vector<std::string> behaviours = engine.QueryImplementations("IAngelBehaviour", "Game");
 
 // Query derived classes
-std::vector<std::string> enemies = engine.QueryDerivedClasses("BaseEnemy");
+std::vector<std::string> enemies = engine.QueryDerivedClasses("BaseEnemy", "Game");
 ```
 
 ### Cross-Script Communication
@@ -381,7 +381,7 @@ srph::TypeRegistration::Class<UUID, srph::ClassType::Value>(engine, "Entity", as
 
 Script usage:
 
-```cpp
+```angelscript
 Entity target = GetTarget();
 Health@ health = cast<Health>(target.GetScript("Health"));
 health.Damage(10);
@@ -436,4 +436,4 @@ engine.AttachDebugger();
 // Debugger listens for VSCode connection
 ```
 
-Requires the [Seraph Debugger extension](https://github.com/Sebight/seraph-vscode).
+Requires [AngelScript LSP extension](https://marketplace.visualstudio.com/items?itemName=sashi0034.angel-lsp) and custom debug adapter.

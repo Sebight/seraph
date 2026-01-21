@@ -61,7 +61,7 @@ void srph::Engine::RemoveLineCallback(const std::string& key) { m_lineCallbacks.
 
 void srph::Engine::Shutdown()
 {
-    m_engine->DiscardModule("Game");
+    // TODO(Seb): Call DiscardModule here?
     for (auto& instance : m_instances)
     {
         instance.second->Release();
@@ -101,12 +101,11 @@ std::vector<srph::InstanceHandle> srph::Engine::GetInstances() const
     return out;
 }
 
-std::vector<std::string> srph::Engine::QueryDerivedClasses(const std::string& baseClass) const
+std::vector<std::string> srph::Engine::QueryDerivedClasses(const std::string& baseClass, const std::string& moduleName) const
 {
     std::vector<std::string> out = {};
 
-    // TODO(Seb): Read module from somewhere
-    asIScriptModule* module = m_engine->GetModule("Game");
+    asIScriptModule* module = m_engine->GetModule(moduleName.c_str());
     asITypeInfo* info = module->GetTypeInfoByDecl(baseClass.c_str());
 
     if (info)
@@ -126,12 +125,11 @@ std::vector<std::string> srph::Engine::QueryDerivedClasses(const std::string& ba
     return out;
 }
 
-std::vector<std::string> srph::Engine::QueryImplementations(const std::string& interface) const
+std::vector<std::string> srph::Engine::QueryImplementations(const std::string& interface, const std::string& moduleName) const
 {
     std::vector<std::string> out = {};
 
-    // TODO(Seb): Read module from somewhere
-    asIScriptModule* module = m_engine->GetModule("Game");
+    asIScriptModule* module = m_engine->GetModule(moduleName.c_str());
     asITypeInfo* info = module->GetTypeInfoByDecl(interface.c_str());
 
     if (info)
@@ -152,17 +150,16 @@ std::vector<std::string> srph::Engine::QueryImplementations(const std::string& i
 }
 
 // Uses a default constructor
-srph::InstanceHandle srph::Engine::CreateInstance(const std::string& typeName)
+srph::InstanceHandle srph::Engine::CreateInstance(const std::string& typeName, const std::string& moduleName)
 {
     if (!m_built) return {};
 
-    // TODO(Seb): Replace "Game"
-    asIScriptModule* module = m_engine->GetModule("Game");
+    asIScriptModule* module = m_engine->GetModule(moduleName.c_str());
     asITypeInfo* type = module->GetTypeInfoByName(typeName.c_str());
 
     if (!type)
     {
-        Log::Error("Type '{}' is not registered in module '{}'.", typeName, "Game");
+        Log::Error("Type '{}' is not registered in module '{}'.", typeName, moduleName);
         return {};
     }
 
@@ -195,7 +192,7 @@ srph::InstanceHandle srph::Engine::CreateInstance(const std::string& typeName)
 }
 
 // Constructs the instance using the provided factory
-srph::InstanceHandle srph::Engine::CreateInstance(const std::string& /*typeName*/, srph::FunctionCaller& functionCall)
+srph::InstanceHandle srph::Engine::CreateInstance(srph::FunctionCaller& functionCall)
 {
     if (!m_built) return {};
     FunctionResult result = functionCall.Call(ReturnType::Object);
@@ -212,12 +209,11 @@ std::string srph::Engine::GetTypeName(InstanceHandle handle) const
     return m_instances.at(handle)->GetObjectType()->GetName();
 }
 
-asITypeInfo* srph::Engine::GetTypeInfo(const std::string& typeName) const
+asITypeInfo* srph::Engine::GetTypeInfo(const std::string& typeName, const std::string& moduleName) const
 {
     if (!m_built) return nullptr;
 
-    // TODO(Seb): Replace "Game"
-    asIScriptModule* module = m_engine->GetModule("Game");
+    asIScriptModule* module = m_engine->GetModule(moduleName.c_str());
     return module->GetTypeInfoByName(typeName.c_str());
 }
 

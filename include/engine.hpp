@@ -15,8 +15,6 @@ class asITypeInfo;
 class asIScriptModule;
 class asIScriptFunction;
 
-static const char* DEFAULT_MODULE = "Game";
-
 namespace srph
 {
 namespace debugger
@@ -64,15 +62,15 @@ public:
     bool Built() const { return m_built; }
     std::vector<InstanceHandle> GetInstances() const;
 
-    std::vector<std::string> QueryDerivedClasses(const std::string& baseClass) const;
-    std::vector<std::string> QueryImplementations(const std::string& interface) const;
-    InstanceHandle CreateInstance(const std::string& typeName);
-    InstanceHandle CreateInstance(const std::string& typeName, srph::FunctionCaller& functionCall);
+    std::vector<std::string> QueryDerivedClasses(const std::string& baseClass, const std::string& moduleName) const;
+    std::vector<std::string> QueryImplementations(const std::string& interface, const std::string& moduleName) const;
+    InstanceHandle CreateInstance(const std::string& typeName, const std::string& moduleName);
+    InstanceHandle CreateInstance(srph::FunctionCaller& functionCall);
 
     std::string GetTypeName(InstanceHandle handle) const;
 
     // TODO(Seb): I don't know how I feel about returning native pointers (and letting the user care about AddRef()...)
-    asITypeInfo* GetTypeInfo(const std::string& typeName) const;
+    asITypeInfo* GetTypeInfo(const std::string& typeName, const std::string& moduleName) const;
     asIScriptObject* GetNativeObject(InstanceHandle handle) const { return m_instances.at(handle); }
 
     std::vector<ReflectedProperty> Reflect(InstanceHandle handle) const;
