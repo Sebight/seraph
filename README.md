@@ -1,5 +1,12 @@
 <p align="center">
   <img src="https://github.com/user-attachments/assets/cfea6d01-e102-4c2e-b0a2-b952d35b3361" alt="Seraph" width="700" />
+  <br>
+  C++ wrapper library for AngelScript
+  <br><br>
+  <img src="https://img.shields.io/badge/C%2B%2B-17-blue.svg" alt="C++17" />
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License" />
+  <a href="#features"><img src="https://img.shields.io/badge/Features-blue" alt="Features" /></a>
+<a href="./api.md"><img src="https://img.shields.io/badge/API-blue" alt="API" /></a>
 </p>
 
 # Seraph
@@ -14,6 +21,10 @@ Seraph is a C++ wrapper library for AngelScript that streamlines type registrati
 - Script loading and compilation management
 
 ## Quick Start
+
+### Building
+
+Seraph currently ships as a Visual Studio project. Clone the repository into your project and configure your include directories to point to the Seraph headers. CMake support is planned.
 
 ### Initialize the Engine
 
@@ -110,6 +121,16 @@ class Player : IUpdatable {
     }
 }
 ```
+
+## Dependencies
+
+Seraph bundles the following libraries:
+
+- [AngelScript](https://www.angelcode.com/angelscript/) — core scripting engine
+- [Asio](https://think-async.com/Asio/) — async networking for the debugger (I plan to implement a more lightweight library)
+- [fmt](https://github.com/fmtlib/fmt) — string formatting
+- [magic_enum](https://github.com/Neargye/magic_enum) — automatic enum type registration
+- [nlohmann/json](https://github.com/nlohmann/json) — JSON serialization for debug protocol
 
 ## License
 
