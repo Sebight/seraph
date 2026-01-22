@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cfea6d01-e102-4c2e-b0a2-b952d35b3361" alt="Seraph" width="700" />
+</p>
+
 # Seraph
 
 Seraph is a C++ wrapper library for AngelScript that streamlines type registration, function binding, and script-to-native interoperability.
