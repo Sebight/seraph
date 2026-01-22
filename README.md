@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/C%2B%2B-17-blue.svg" alt="C++17" />
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License" />
   <a href="#features"><img src="https://img.shields.io/badge/Features-blue" alt="Features" /></a>
-<a href="./api.md"><img src="https://img.shields.io/badge/API-blue" alt="API" /></a>
+  <a href="./api.md" taget:"_blank"><img src="https://img.shields.io/badge/API-blue" alt="API" /></a>
 </p>
 
 # Seraph
