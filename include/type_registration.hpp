@@ -47,7 +47,7 @@ public:
 
     void Register()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         std::string name = m_name.empty() ? std::string(magic_enum::enum_type_name<T>()) : m_name;
         SRPH_VERIFY(engine->RegisterEnum(name.c_str()), "Enum registration failed.")
@@ -168,7 +168,7 @@ public:
     template <typename... Args>
     Class& Constructor(const char* decl)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectBehaviour(m_name.c_str(),
                                                     asBEHAVE_CONSTRUCT,
@@ -188,7 +188,7 @@ public:
                     const char* param,
                     bool primitiveParam = false)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
         std::string opName = std::string(magic_enum::enum_name(op));
         std::string paramDecl = primitiveParam ? param : fmt::format("const {}&in", param);
         std::string fullName = fmt::format("{} op{}({})", returnType, opName.c_str(), paramDecl);
@@ -200,7 +200,7 @@ public:
 
     Class& Property(const std::string& name, size_t offset)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectProperty(m_name.c_str(), name.c_str(), static_cast<int>(offset)),
                     "Property registration failed.");
@@ -212,7 +212,7 @@ public:
     template <typename Func>
     std::enable_if_t<!std::is_member_function_pointer_v<Func>, Class&> Method(const std::string& funcDecl, Func func)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         auto fnPtr = +func;
 
@@ -226,7 +226,7 @@ public:
     template <typename R, typename... Args>
     Class& Method(const char* funcDecl, R (T::*method)(Args...))
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
         SRPH_VERIFY(engine->RegisterObjectMethod(m_name.c_str(),
                                                  funcDecl,
                                                  asSMethodPtr<sizeof(void(T::*)())>::Convert(method),
@@ -240,7 +240,7 @@ public:
     template <typename R, typename... Args>
     Class& Method(const char* funcDecl, R (T::*method)(Args...) const)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
         SRPH_VERIFY(engine->RegisterObjectMethod(m_name.c_str(),
                                                  funcDecl,
                                                  asSMethodPtr<sizeof(void(T::*)())>::Convert(method),
@@ -253,7 +253,7 @@ public:
 public:
     Class& DefaultConstructor()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectBehaviour(m_name.c_str(),
                                                     asBEHAVE_CONSTRUCT,
@@ -267,7 +267,7 @@ public:
 
     Class& CopyConstructor()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectBehaviour(
                         m_name.c_str(),
@@ -282,7 +282,7 @@ public:
 
     Class& Destructor()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(
             engine->RegisterObjectBehaviour(m_name.c_str(),
@@ -298,7 +298,7 @@ public:
 
     Class& OperatorAssign()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectMethod(m_name.c_str(),
                                                  fmt::format("{}& opAssign(const {}&in)", m_name, m_name).c_str(),
@@ -322,7 +322,7 @@ public:
                      const asSFuncPtr& funcPointer,
                      asDWORD callConv = asCALL_CDECL_OBJLAST)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterObjectBehaviour(m_name.c_str(), behaviour, decl, funcPointer, callConv),
                     "Behaviour registration failed.")
@@ -332,7 +332,7 @@ public:
 
     void Register()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         constexpr bool valueType = classType == ClassType::Value;
         asEObjTypeFlags typeFlag = valueType ? asOBJ_VALUE : asOBJ_REF;
@@ -356,7 +356,7 @@ public:
     template <typename Func>
     Global& Function(const std::string& funcDecl, Func func)
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         auto fnPtr = +func;
 
@@ -385,14 +385,14 @@ public:
 
     Interface& Method(const char* methodDecl)
     {
-        m_engine->Temp_GetEngine()->RegisterInterfaceMethod(m_name.c_str(), methodDecl);
+        m_engine->m_engine->RegisterInterfaceMethod(m_name.c_str(), methodDecl);
 
         return *this;
     }
 
     void Register()
     {
-        asIScriptEngine* engine = m_engine->Temp_GetEngine();
+        asIScriptEngine* engine = m_engine->m_engine;
 
         SRPH_VERIFY(engine->RegisterInterface(m_name.c_str()), "Interface registration failed.")
     }

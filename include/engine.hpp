@@ -23,6 +23,21 @@ class Debugger;
 class DAP;
 }  // namespace debugger
 
+namespace TypeRegistration
+{
+enum class ClassType : uint8_t;
+template <typename T>
+class Enum;
+template <typename T>
+class Enum;
+
+template <typename T, ClassType>
+class Class;
+
+class Global;
+class Interface;
+}  // namespace TypeRegistration
+
 class FunctionCaller;
 
 struct CachedMethodKey
@@ -53,6 +68,7 @@ public:
 
     // Attaches a debugger if not already attached
     void AttachDebugger();
+    void StopDebugger();
 
     void RegisterTimeoutCallback(const std::function<void()>& f) { m_timeoutCallback = f; }
     void RegisterLineCallback(const std::string& key, const std::function<void(asIScriptContext* context)>& f);
@@ -80,8 +96,6 @@ public:
     void Namespace(const std::string& ns) const;
 
     void GeneratePredefined(const std::string& path);
-    asIScriptEngine* Temp_GetEngine() { return m_engine; }
-    void StopDebugger();
 
 private:
     asIScriptEngine* m_engine = nullptr;
@@ -105,6 +119,13 @@ private:
     friend class ScriptLoader;
     friend class FunctionCaller;
     friend class debugger::Debugger;
+
+    template <typename T>
+    friend class TypeRegistration::Enum;
+    template <typename T, TypeRegistration::ClassType>
+    friend class TypeRegistration::Class;
+    friend class TypeRegistration::Global;
+    friend class TypeRegistration::Interface;
 
     void RegisterAddOns() const;
 
