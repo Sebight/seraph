@@ -443,4 +443,4 @@ engine.AttachDebugger();
 // Debugger listens for VSCode connection
 ```
 
-Requires [AngelScript LSP extension](https://marketplace.visualstudio.com/items?itemName=sashi0034.angel-lsp) and custom debug adapter.
+Requires the [Seraph Debugger extension](https://github.com/Sebight/seraph-vscode).

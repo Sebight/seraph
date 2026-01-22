@@ -175,11 +175,10 @@
     <ClInclude Include="include\script_reflection.hpp" />
     <ClInclude Include="include\srph_common.hpp" />
     <ClInclude Include="include\engine.hpp" />
-    <ClInclude Include="include\seraph.hpp" />
     <ClInclude Include="include\srph_verify.hpp" />
     <ClInclude Include="include\tools\log.hpp" />
     <ClInclude Include="include\type_registration.hpp" />
-    <ClInclude Include="seraph.hpp" />
+    <ClInclude Include="include\seraph.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="external\angelscript\add_on\scriptarray\scriptarray.cpp" />
